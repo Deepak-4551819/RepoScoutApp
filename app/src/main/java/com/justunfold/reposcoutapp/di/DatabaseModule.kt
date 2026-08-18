@@ -11,7 +11,7 @@ val databaseModule = module {
             androidContext(),
             RepoScoutDatabase::class.java,
             "reposcout.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration(true).build()
     }
     single { get<RepoScoutDatabase>().bookmarkDao }
 }
