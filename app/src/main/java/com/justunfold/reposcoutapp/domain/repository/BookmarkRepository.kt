@@ -8,4 +8,5 @@ interface BookmarkRepository {
     suspend fun removeBookmark(id: Long)
     fun getAllSavedRepositories(): Flow<List<RepositoryItem>>
     fun isBookmarked(id: Long): Flow<Boolean>
+    suspend fun getSavedRepository(owner: String, repo: String): RepositoryItem?
 }

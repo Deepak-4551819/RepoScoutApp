@@ -29,4 +29,8 @@ class BookmarkRepositoryImpl(
     override fun isBookmarked(id: Long): Flow<Boolean> {
         return bookmarkDao.isRepositoryBookmarked(id)
     }
+
+    override suspend fun getSavedRepository(owner: String, repo: String): RepositoryItem? {
+        return bookmarkDao.getSavedRepositoryByName(owner, repo)?.toDomain()
+    }
 }

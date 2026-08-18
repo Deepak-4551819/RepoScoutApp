@@ -22,4 +22,8 @@ interface BookmarkDao {
 
     @Query("SELECT * FROM saved_repositories WHERE id = :id LIMIT 1")
     suspend fun getSavedRepositoryById(id: Long): SavedRepositoryEntity?
+
+    // Lookup saved repository by owner and name for offline details
+    @Query("SELECT * FROM saved_repositories WHERE ownerName = :ownerName AND name = :repoName COLLATE NOCASE LIMIT 1")
+    suspend fun getSavedRepositoryByName(ownerName: String, repoName: String): SavedRepositoryEntity?
 }

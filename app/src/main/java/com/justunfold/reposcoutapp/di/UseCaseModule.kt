@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val useCaseModule = module {
     factory { GetExploreRepositoriesUseCase(get()) }
     factory { SearchRepositoriesUseCase(get()) }
-    factory { GetRepositoryDetailUseCase(get()) }
+    factory { GetRepositoryDetailUseCase(get(), get()) }
     factory { ToggleBookmarkUseCase(get()) }
     factory { GetSavedRepositoriesUseCase(get()) }
     factory { IsBookmarkedUseCase(get()) }
