@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,14 +34,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.justunfold.reposcoutapp.core.theme.ThemeMode
 import com.justunfold.reposcoutapp.core.ui.components.ErrorStateCard
 import com.justunfold.reposcoutapp.core.ui.components.RepositoryCard
-import com.justunfold.reposcoutapp.domain.model.RepositoryItem
+import com.justunfold.reposcoutapp.core.ui.components.ThemeSelectionMenu
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreScreen(
+    currentTheme: ThemeMode,
+    onThemeSelected: (ThemeMode) -> Unit,
     onNavigateToSearch: () -> Unit,
     onNavigateToDetail: (owner: String, repo: String) -> Unit,
     viewModel: ExploreViewModel = koinViewModel()
@@ -49,7 +53,6 @@ fun ExploreScreen(
     val listState = rememberLazyListState()
     val pullToRefreshState = rememberPullToRefreshState()
 
-    // Pagination trigger when nearing the bottom (3 items from end)
     val shouldLoadMore by remember {
         derivedStateOf {
             val totalItems = listState.layoutInfo.totalItemsCount
@@ -65,6 +68,7 @@ fun ExploreScreen(
     }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0.dp),
         topBar = {
             TopAppBar(
                 title = {
@@ -81,6 +85,13 @@ fun ExploreScreen(
                     }
                 },
                 actions = {
+                    // 1. Theme Selection Dropdown Menu
+                    ThemeSelectionMenu(
+                        currentTheme = currentTheme,
+                        onThemeSelected = onThemeSelected
+                    )
+
+                    // 2. Search Navigation Button
                     IconButton(onClick = onNavigateToSearch) {
                         Icon(
                             imageVector = Icons.Outlined.Search,
